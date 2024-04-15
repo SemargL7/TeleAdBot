@@ -3,10 +3,10 @@ from aiogram.enums import ChatMemberStatus
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-import utils
-from utils.db_api import db_commands as db
+from bot import utils
+from bot.utils.db_api import db_commands as db
 
-from loader import dp, bot
+from bot.loader import dp, bot
 
 
 @dp.message(Command('start'))

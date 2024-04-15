@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from gino.schema import GinoSchemaVisitor
-from sqlalchemy import Column, sql
-from data.config import POSTGRES_URL
+from sqlalchemy import sql
+from bot.data.config import POSTGRES_URL
 from . import db
 
 

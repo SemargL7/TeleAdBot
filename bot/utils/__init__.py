@@ -1,10 +1,9 @@
 from typing import Optional
 
-from aiogram import types
 from aiogram.enums import ChatMemberStatus
 from aiogram.types import User
 
-from loader import bot
+from bot.loader import bot
 
 
 async def find_creator(chat_id: int) -> Optional[User]:

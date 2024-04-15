@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  bot:
+    container_name: tele_bot
+    build: ./
+    depends_on:
+      - db
+    command: bash -c 'while !<dev/tcp/postgres/5432; do sleep 1; done; unicorn bot.main:bot --host 0.0.0.0 --port 1111'
+    volumes:
+      - ./bot:/src/bot
+    ports:
+      - {TELEGRAM_BOT_HOST_PORT}:1111
+    restart: always
+    env_file:
+      - .env
+  db:
+    container_name: tele_bot_postgres
+    image: postgres
+    environment:
+      - POSTGRES_DB=${PG_DATABASE}
+      - POSTGRES_USER=${PG_DB_USER}
+      - POSTGRES_PASSWORD=${PG_DB_PASSWORD}
+    ports:
+      - ${PG_DB_HOST_PORT}:5432
+    volumes:
+      - .postgres:/var/lib/postgres/data
+    restart: always
