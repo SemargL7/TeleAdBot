@@ -1,8 +1,9 @@
 from aiogram import types
 from aiogram.enums import ChatMemberStatus
 from aiogram.filters import Command
+from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-
+import requests
 from bot import utils
 from bot.utils.db_api import db_commands as db
 
@@ -24,18 +25,13 @@ async def start_command(message: types.Message):
                           username=user.username)
 
 
-@dp.my_chat_member()
-async def my_chat_member_def(my_chat_member: types.ChatMemberUpdated):
-    if my_chat_member.new_chat_member.user.id == bot.id:
-        if not my_chat_member.old_chat_member.is_member and my_chat_member.new_chat_member.is_member:
-            from_user = await bot.get_chat_member(user_id=my_chat_member.from_user.id, chat_id=my_chat_member.chat.id)
-            creator = None
-            if from_user.status == ChatMemberStatus.CREATOR:
-                creator = from_user.user
-            else:
-                creator = await utils.find_creator(my_chat_member.chat.id)
+@dp.message(Command('app'))
+async def send_app(message: types.Message):
+    user = message.from_user
+    markup = InlineKeyboardBuilder()
+    markup.row(types.InlineKeyboardButton(text="Add to Group", web_app=types.WebAppInfo(url=f"https://google.com")))
+    await message.answer(text=f"Click button",reply_markup=markup.as_markup())
 
-            if creator is None:
-                return
-            else:
+
+                
                 
